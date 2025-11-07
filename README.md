@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -28,13 +29,6 @@
         }
         body {
             background-color: #3d2d1e;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-        }
-        html {
-            margin: 0;
-            padding: 0;
         }
         .bg-pattern {
             background-image: url('https://imgur.com/VXxU8MT');
@@ -206,7 +200,8 @@
             if (submitted) {
                 app.innerHTML = `
                     <div class="min-h-screen flex items-center justify-center p-4 relative">
-                        <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/20"></div>
+                        <div class="absolute inset-0 opacity-30 bg-pattern"></div>
+                        <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/40"></div>
                         
                         <div class="fixed left-0 top-0 h-full w-24 z-20 hidden lg:block paper-tear">
                             <div class="absolute inset-0 bg-gradient-to-r from-transparent to-white/10"></div>
@@ -280,7 +275,7 @@
                             </div>
                         </div>
 
-                        <form onsubmit="handleSubmit(event)" class="bg-white rounded-b-lg shadow-2xl p-4 md:p-8 backdrop-blur-sm">
+                        <form onsubmit="handleSubmit(event)" class="bg-white rounded-b-lg shadow-2xl p-8 backdrop-blur-sm">
                             <!-- Contact Information -->
                             <div class="mb-8">
                                 <h2 class="text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-amber-600 flex items-center">
@@ -660,7 +655,8 @@
                                 </button>
                             </div>
                         </form>
-                    </div>
+
+                                         </div>
                 </div>
             `;
         }
