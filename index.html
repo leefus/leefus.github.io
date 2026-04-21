@@ -7,6 +7,274 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
   <style>
+    :root { --red:#e50914; --black:#141414; --dark:#181818; --gray:#2f2f2f; --light:#e5e5e5; }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:var(--black);color:#fff;font-family:'Inter',sans-serif;overflow-x:hidden;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:18px 60px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to bottom,rgba(0,0,0,.9),transparent);transition:background .3s;}
+    nav.scrolled{background:var(--black);}
+    .nav-logo{font-size:1.8rem;font-weight:900;color:var(--red);text-decoration:none;letter-spacing:-1px;}
+    .nav-logo span{color:#fff;}
+    .nav-links{display:flex;gap:24px;list-style:none;}
+    .nav-links a{color:#ccc;text-decoration:none;font-size:.85rem;font-weight:500;transition:color .2s;}
+    .nav-links a:hover{color:#fff;}
+    .nav-avatar{width:36px;height:36px;border-radius:4px;object-fit:cover;cursor:pointer;}
+    .hero{position:relative;height:92vh;min-height:600px;display:flex;align-items:flex-end;padding:0 60px 120px;overflow:hidden;}
+    .hero-bg{position:absolute;inset:0;background:url('avatar.jpg') center 20%/cover no-repeat;filter:brightness(.45) saturate(1.3);}
+    .hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(20,20,20,.97) 35%,rgba(20,20,20,.1) 75%),linear-gradient(to top,rgba(20,20,20,1) 0%,transparent 30%);}
+    .hero-content{position:relative;z-index:2;max-width:560px;}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(229,9,20,.12);border:1px solid rgba(229,9,20,.35);padding:4px 14px;border-radius:20px;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:#ff6b6b;margin-bottom:18px;}
+    .hero-name{font-size:clamp(3rem,6vw,5.5rem);font-weight:900;line-height:1;margin-bottom:8px;}
+    .hero-title{font-size:1.05rem;color:#999;margin-bottom:18px;font-weight:300;letter-spacing:1px;}
+    .hero-desc{font-size:.98rem;line-height:1.65;color:var(--light);margin-bottom:28px;max-width:460px;}
+    .hero-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;}
+    .hero-tag{padding:4px 12px;border-radius:3px;font-size:.72rem;font-weight:600;letter-spacing:.8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);}
+    .hero-btns{display:flex;gap:12px;}
+    .btn{display:flex;align-items:center;gap:8px;padding:12px 28px;border-radius:4px;font-size:1rem;font-weight:700;cursor:pointer;border:none;text-decoration:none;transition:all .2s;}
+    .btn-primary{background:#fff;color:#000;}
+    .btn-primary:hover{background:rgba(255,255,255,.85);}
+    .btn-secondary{background:rgba(109,109,110,.7);color:#fff;}
+    .btn-secondary:hover{background:rgba(109,109,110,.5);}
+    .content{padding:0 0 80px;}
+    .ticker{background:rgba(229,9,20,.07);border-top:1px solid rgba(229,9,20,.18);border-bottom:1px solid rgba(229,9,20,.18);padding:14px 60px;margin-bottom:36px;display:flex;align-items:center;gap:20px;overflow:hidden;}
+    .ticker-label{font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--red);font-weight:700;white-space:nowrap;flex-shrink:0;}
+    .ticker-track{display:flex;gap:40px;animation:ticker 50s linear infinite;white-space:nowrap;}
+    @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    .ticker-item{font-size:.82rem;color:#bbb;}
+    .ticker-item b{color:var(--red);margin-right:6px;}
+    .stats{padding:0 60px;margin-bottom:44px;display:flex;gap:16px;flex-wrap:wrap;}
+    .stat{flex:1;min-width:140px;background:var(--dark);border-radius:6px;padding:20px 22px;border:1px solid rgba(255,255,255,.05);text-align:center;}
+    .stat-n{font-size:2.2rem;font-weight:900;color:var(--red);}
+    .stat-l{font-size:.7rem;color:#777;margin-top:4px;text-transform:uppercase;letter-spacing:1px;}
+    .row{margin-bottom:38px;}
+    .row-head{display:flex;align-items:center;justify-content:space-between;padding:0 60px;margin-bottom:12px;}
+    .row-title{font-size:1.2rem;font-weight:700;color:var(--light);}
+    .row-title .cnt{font-size:.78rem;color:var(--red);margin-left:8px;}
+    .see-all{font-size:.75rem;color:var(--red);text-decoration:none;font-weight:500;opacity:0;transition:opacity .2s;}
+    .row:hover .see-all{opacity:1;}
+    .slider{padding:0 60px;overflow-x:auto;display:flex;gap:8px;padding-bottom:20px;scrollbar-width:none;overflow-y:visible;}
+    .slider::-webkit-scrollbar{display:none;}
+    .card{flex:0 0 220px;height:130px;border-radius:4px;position:relative;cursor:pointer;transition:transform .25s ease,z-index 0s .25s;overflow:visible;}
+    .card:hover{transform:scale(1.32);z-index:100;transition:transform .3s ease .15s,z-index 0s;}
+    .card-inner{width:100%;height:130px;border-radius:4px;overflow:hidden;position:relative;}
+    .card-bg{position:absolute;inset:0;}
+    .card-emoji{position:absolute;bottom:8px;right:10px;font-size:2.2rem;opacity:.55;}
+    .card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.82) 0%,transparent 60%);}
+    .card-title{position:absolute;bottom:0;left:0;right:0;padding:8px 10px;font-size:.78rem;font-weight:700;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+    .popup{position:absolute;top:0;left:0;width:100%;background:var(--dark);border-radius:4px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.8);opacity:0;pointer-events:none;transition:opacity .15s ease .15s;z-index:200;}
+    .card:hover .popup{opacity:1;pointer-events:all;}
+    .popup-img{width:100%;height:120px;object-fit:cover;}
+    .popup-body{padding:12px;}
+    .popup-title{font-size:.88rem;font-weight:700;margin-bottom:6px;}
+    .popup-meta{display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap;}
+    .tag{font-size:.65rem;padding:2px 8px;border-radius:2px;font-weight:600;letter-spacing:.4px;}
+    .tag-active{background:rgba(70,211,105,.18);color:#46d369;border:1px solid #46d369;}
+    .tag-idea{background:rgba(229,9,20,.18);color:#ff6b6b;border:1px solid #ff6b6b;}
+    .tag-done{background:rgba(255,255,255,.1);color:#999;border:1px solid #555;}
+    .tag-health{background:rgba(100,200,255,.15);color:#64c8ff;border:1px solid #64c8ff;}
+    .tag-writing{background:rgba(255,180,50,.15);color:#ffb432;border:1px solid #ffb432;}
+    .tag-journal{background:rgba(180,100,255,.15);color:#b464ff;border:1px solid #b464ff;}
+    .pdate{font-size:.65rem;color:#888;}
+    .popup-desc{font-size:.73rem;color:#ccc;line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+    .popup-actions{display:flex;gap:6px;margin-top:10px;}
+    .pbtn{width:28px;height:28px;border-radius:50%;border:2px solid #888;background:transparent;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.75rem;transition:all .2s;}
+    .pbtn:hover{border-color:#fff;background:rgba(255,255,255,.1);}
+    .pbtn.play{background:#fff;border-color:#fff;color:#000;}
+    .row-tall .card{flex:0 0 155px;height:230px;}
+    .row-tall .card-inner{height:230px;}
+    .row-tall .popup-img{height:160px;}
+    .imp-section{padding:0 60px;margin-bottom:60px;}
+    .imp-title{font-size:1.2rem;font-weight:700;color:var(--light);margin-bottom:4px;}
+    .imp-sub{font-size:.82rem;color:#666;margin-bottom:18px;}
+    .imp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(275px,1fr));gap:12px;}
+    .imp-card{background:var(--dark);border-radius:6px;padding:14px 18px;border:1px solid rgba(255,255,255,.05);display:flex;align-items:flex-start;gap:12px;transition:background .2s;}
+    .imp-card:hover{background:var(--gray);}
+    .imp-check{width:22px;height:22px;border-radius:50%;border:2px solid;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:.7rem;}
+    .done-check{border-color:#46d369;color:#46d369;}
+    .todo-check{border-color:#444;color:transparent;}
+    .imp-text{font-size:.83rem;line-height:1.45;}
+    .imp-text.done{text-decoration:line-through;color:#555;}
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9000;display:none;align-items:center;justify-content:center;}
+    .overlay.open{display:flex;}
+    .modal{background:#1c1c1c;border-radius:8px;max-width:680px;width:92%;max-height:88vh;overflow-y:auto;position:relative;}
+    .mclose{position:absolute;top:14px;right:14px;background:rgba(0,0,0,.6);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:.9rem;z-index:2;}
+    .m-hero{width:100%;height:220px;display:flex;align-items:center;justify-content:center;font-size:5rem;border-radius:8px 8px 0 0;}
+    .m-body{padding:22px 26px;}
+    .m-title{font-size:1.35rem;font-weight:800;margin-bottom:8px;}
+    .m-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center;}
+    .m-desc{font-size:.9rem;color:#bbb;line-height:1.7;}
+    .m-link{display:inline-flex;align-items:center;gap:6px;margin-top:16px;color:var(--red);text-decoration:none;font-size:.83rem;font-weight:600;}
+    .m-link:hover{text-decoration:underline;}
+    footer{padding:36px 60px;border-top:1px solid rgba(255,255,255,.07);color:#444;font-size:.76rem;display:flex;justify-content:space-between;align-items:center;}
+    .footer-links{display:flex;gap:18px;}
+    .footer-links a{color:#444;text-decoration:none;}
+    .footer-links a:hover{color:#aaa;}
+    @media(max-width:768px){nav,.hero,.row-head,.slider,.ticker,.stats,.imp-section,footer{padding-left:22px!important;padding-right:22px!important;}.nav-links{display:none;}}
+  </style>
+</head>
+<body>
+<nav id="nav">
+  <a class="nav-logo" href="#"><span>LEE </span>HATHCOCK</a>
+  <ul class="nav-links">
+    <li><a href="#ideas">Ideas</a></li>
+    <li><a href="#health">Health</a></li>
+    <li><a href="#writing">Writing</a></li>
+    <li><a href="#journal">Journal</a></li>
+    <li><a href="#impossible">Impossible List</a></li>
+  </ul>
+  <img src="avatar.jpg" class="nav-avatar" alt="Lee"/>
+</nav>
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge">&#128308; LIVE &mdash; Updated Nightly from Notion</div>
+    <h1 class="hero-name">LEE<br>HATHCOCK</h1>
+    <p class="hero-title" id="hero-title">Builder &middot; Writer &middot; Explorer</p>
+    <p class="hero-desc" id="hero-desc">Loading latest from Notion...</p>
+    <div class="hero-tags" id="hero-tags"></div>
+    <div class="hero-btns">
+      <a href="https://www.notion.so/blh129" target="_blank" class="btn btn-primary">&#9654; Open Notion</a>
+      <a href="https://github.com/leefus" target="_blank" class="btn btn-secondary">&#9432; GitHub</a>
+    </div>
+  </div>
+</section>
+<main class="content">
+  <div class="ticker">
+    <span class="ticker-label">&#128213; Latest Thoughts</span>
+    <div class="ticker-track" id="ticker"></div>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="stat-n" id="sn-ideas">-</div><div class="stat-l">Ideas</div></div>
+    <div class="stat"><div class="stat-n" id="sn-writing">-</div><div class="stat-l">Writing</div></div>
+    <div class="stat"><div class="stat-n" id="sn-health">-</div><div class="stat-l">Health Entries</div></div>
+    <div class="stat"><div class="stat-n" id="sn-impossible">-</div><div class="stat-l">Impossible Goals</div></div>
+    <div class="stat"><div class="stat-n" id="sn-done">-</div><div class="stat-l">Goals Crushed</div></div>
+  </div>
+  <div class="row" id="ideas">
+    <div class="row-head">
+      <h2 class="row-title">&#128161; Ideas <span class="cnt" id="cnt-ideas"></span></h2>
+      <a class="see-all" href="https://www.notion.so/blh129/4d88f0d49f224860989b11b86dc3ba28" target="_blank">See All &rarr;</a>
+    </div>
+    <div class="slider" id="row-ideas"></div>
+  </div>
+  <div class="row" id="writing">
+    <div class="row-head">
+      <h2 class="row-title">&#9997;&#65039; Writing <span class="cnt" id="cnt-writing"></span></h2>
+      <a class="see-all" href="https://www.notion.so/blh129/471e8536006b45f693e28a599cd70108" target="_blank">See All &rarr;</a>
+    </div>
+    <div class="slider" id="row-writing"></div>
+  </div>
+  <div class="row" id="health">
+    <div class="row-head">
+      <h2 class="row-title">&#128170; Health &amp; Wellness <span class="cnt" id="cnt-health"></span></h2>
+      <a class="see-all" href="https://www.notion.so/blh129/f32f30a0f61c456587b0df7e4a000ed5" target="_blank">See All &rarr;</a>
+    </div>
+    <div class="slider" id="row-health"></div>
+  </div>
+  <div class="row row-tall" id="journal">
+    <div class="row-head">
+      <h2 class="row-title">&#128213; Journal <span class="cnt" id="cnt-journal"></span></h2>
+      <a class="see-all" href="https://www.notion.so/blh129/3375a230e58580a8a756e6af89613990" target="_blank">See All &rarr;</a>
+    </div>
+    <div class="slider" id="row-journal"></div>
+  </div>
+  <div class="imp-section" id="impossible">
+    <h2 class="imp-title">&#128640; The Impossible List</h2>
+    <p class="imp-sub">Things that seem impossible &mdash; until they&rsquo;re not.</p>
+    <div class="imp-grid" id="imp-grid"></div>
+  </div>
+</main>
+<footer>
+  <div>&copy; 2026 Lee Hathcock &middot; hathcocked.com &middot; Updated nightly</div>
+  <div class="footer-links">
+    <a href="https://github.com/leefus" target="_blank">GitHub</a>
+    <a href="https://www.notion.so/blh129" target="_blank">Notion</a>
+  </div>
+</footer>
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <button class="mclose" onclick="closeModal()">&#10005;</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+<script>
+const PALETTES=[['#1a1a2e','#0f3460'],['#2d1b69','#11998e'],['#1a0005','#6f0000'],['#0f2027','#2c5364'],['#1a1a1a','#e50914'],['#0d0d0d','#ff6b35'],['#111','#4ecdc4'],['#13001e','#9d50bb'],['#0d0a00','#c9a800'],['#0d1117','#238636']];
+const EMOJIS={ideas:['💡','🧠','⚡','🔥','✨','🎯','🚀','💎','🌟','🔮'],writing:['✏️','📖','📝','📔','📰','🌟','🎧','🎭','📋','☺'],health:['💪','🏃','🥗','🧘','❤','🏋','🌿','⚕','⚡','🎽'],journal:['📓','🌙','☀','💭','🌊','🔥','🌛','🌺','⭐','🎵'],impossible:['🚀','🎁','⚽','🎱','🎯','⛷','🏄','🎯','💰','🌳']};
+function hue(s){let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))%PALETTES.length;return Math.abs(h);}
+function pal(t){return PALETTES[hue(t)];}
+function emo(t,tp){const pool=EMOJIS[tp]||EMOJIS.ideas;return pool[hue(t)%pool.length];}
+function fdate(d){if(!d)return '';try{return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}catch(e){return '';}}
+function tagClass(s){return({'Active':'tag-active','In Progress':'tag-active','Idea':'tag-idea','New':'tag-idea','Done':'tag-done','Completed':'tag-done','Health':'tag-health','Writing':'tag-writing','Journal':'tag-journal'})[s]||'tag-idea';}
+function mkCard(item,tp){
+  const[c1,c2]=pal(item.title||'');
+  const e=emo(item.title||'',tp);
+  const enc=encodeURIComponent(JSON.stringify({...item,_type:tp}));
+  return '<div class="card" onclick="openModal(''+enc+'')"><div class="card-inner"><div class="card-bg" style="background:linear-gradient(135deg,'+c1+','+c2+')"></div><div class="card-overlay"></div><div class="card-emoji">'+e+'</div><div class="card-title">'+(item.title||'Untitled')+'</div></div><div class="popup"><div class="popup-img" style="background:linear-gradient(135deg,'+c1+','+c2+');display:flex;align-items:center;justify-content:center;font-size:2.8rem">'+e+'</div><div class="popup-body"><div class="popup-title">'+(item.title||'Untitled')+'</div><div class="popup-meta"><span class="tag '+tagClass(item.status)+'">'+(item.status||'Idea')+'</span>'+(item.date?'<span class="pdate">'+fdate(item.date)+'</span>':'')+'</div><div class="popup-desc">'+(item.description||'No description.')+'</div><div class="popup-actions"><button class="pbtn play">&#9654;</button>'+(item.url?'<button class="pbtn" onclick="event.stopPropagation();window.open(''+item.url+'','_blank')">&#8599;</button>':'')+'</div></div></div></div>';}
+function openModal(enc){
+  let item;try{item=JSON.parse(decodeURIComponent(enc));}catch(e){return;}
+  const[c1,c2]=pal(item.title||'');
+  const e=emo(item.title||'',item._type||'ideas');
+  document.getElementById('modal-body').innerHTML='<div class="m-hero" style="background:linear-gradient(135deg,'+c1+','+c2+')">'+e+'</div><div class="m-body"><div class="m-title">'+(item.title||'Untitled')+'</div><div class="m-meta"><span class="tag '+tagClass(item.status)+'">'+(item.status||'Idea')+'</span>'+(item.date?'<span style="color:#777;font-size:.78rem">'+fdate(item.date)+'</span>':'')+(item.category?'<span style="color:#777;font-size:.78rem">'+item.category+'</span>':'')+'</div><div class="m-desc">'+(item.description||'No description.')+'</div>'+(item.url?'<a href="'+item.url+'" target="_blank" class="m-link">&#8599; Open in Notion</a>':'')+'</div>';
+  document.getElementById('overlay').classList.add('open');
+}
+function closeModal(){document.getElementById('overlay').classList.remove('open');}
+document.getElementById('overlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
+function renderRow(id,cntId,items,tp){
+  const el=document.getElementById(id);
+  const cnt=document.getElementById(cntId);
+  if(cnt)cnt.textContent=items.length?'('+items.length+')':'';
+  el.innerHTML=items.length?items.map(i=>mkCard(i,tp)).join(''):'<div style="padding:16px 0;color:#555;font-size:.82rem">Nothing yet.</div>';
+}
+function renderImp(items){
+  document.getElementById('imp-grid').innerHTML=items.length?items.map(i=>'<div class="imp-card"><div class="imp-check '+(i.done?'done-check':'todo-check')+'">'+(i.done?'&#10003;':'')+'</div><div class="imp-text '+(i.done?'done':'')+'">'+(i.title||'Goal')+'</div></div>').join(''):'<div style="color:#555">Add goals in Notion!</div>';
+}
+function renderAll(data){
+  const ideas=data.ideas||[];
+  const writing=data.writing||[];
+  const health=data.health||[];
+  const journal=data.journal||[];
+  const impossible=data.impossible||[];
+  const latest=ideas[0]||writing[0]||{};
+  document.getElementById('hero-desc').textContent=latest.description||'Builder, thinker, and explorer living life on purpose.';
+  document.getElementById('hero-tags').innerHTML=['Builder','Writer','Health Seeker','Dreamer'].map(t=>'<span class="hero-tag">'+t+'</span>').join('');
+  document.getElementById('sn-ideas').textContent=ideas.length;
+  document.getElementById('sn-writing').textContent=writing.length;
+  document.getElementById('sn-health').textContent=health.length;
+  document.getElementById('sn-impossible').textContent=impossible.length;
+  document.getElementById('sn-done').textContent=impossible.filter(i=>i.done).length;
+  const tickerItems=[...journal,...ideas,...writing].slice(0,12);
+  const doubled=[...tickerItems,...tickerItems];
+  document.getElementById('ticker').innerHTML=doubled.map(i=>'<span class="ticker-item"><b>&#9670;</b>'+(i.title||'')+'</span>').join('');
+  renderRow('row-ideas','cnt-ideas',ideas,'ideas');
+  renderRow('row-writing','cnt-writing',writing,'writing');
+  renderRow('row-health','cnt-health',health,'health');
+  renderRow('row-journal','cnt-journal',journal,'journal');
+  renderImp(impossible);
+}
+async function loadData(){
+  try{
+    const r=await fetch('data.json');
+    if(!r.ok)throw new Error('not found');
+    const data=await r.json();
+    renderAll(data);
+  }catch(e){
+    console.warn('data.json not found, using demo data');
+    renderAll(DEMO);
+  }
+}
+const DEMO={ideas:[{title:'Netflix-Style Personal Site',description:'A personal website that looks like Netflix, pulling content nightly from Notion.',status:'Active',date:'2026-04-15',url:'https://notion.so',type:'ideas'},{title:'AI-Powered Dashboard',description:'Real-time dashboard aggregating all life data.',status:'Active',date:'2026-04-01',url:'https://notion.so',type:'ideas'},{title:'Morning Ritual Optimizer',description:'Optimize morning routines for maximum productivity.',status:'Idea',date:'2026-03-20',url:'https://notion.so',type:'ideas'},{title:'Deep Work Journal',description:'Structured journaling for deep work sessions.',status:'Idea',date:'2026-03-10',url:'https://notion.so',type:'ideas'},{title:'Content Creation Engine',description:'Automate content creation across platforms.',status:'In Progress',date:'2026-04-10',url:'https://notion.so',type:'ideas'}],writing:[{title:'The Impossible List Manifesto',description:'Why the impossible list changes everything.',status:'In Progress',date:'2026-04-05',url:'https://notion.so',type:'writing'},{title:'Building in Public',description:'What radical transparency teaches you.',status:'Idea',date:'2026-03-28',url:'https://notion.so',type:'writing'},{title:'Notes on Deep Work',description:'Lessons from focused work experiments.',status:'Done',date:'2026-02-20',url:'https://notion.so',type:'writing'}],health:[{title:'Zone 2 Cardio Protocol',description:'Weekly zone 2 training for metabolic health.',status:'Active',date:'2026-04-18',url:'https://notion.so',type:'health'},{title:'Sleep Optimization',description:'90-day sleep quality experiment.',status:'Active',date:'2026-04-01',url:'https://notion.so',type:'health'},{title:'Strength Training Cycle',description:'16-week compound movement cycle.',status:'Active',date:'2026-03-15',url:'https://notion.so',type:'health'}],journal:[{title:'The Cost of Playing Small',description:'Reflections on fear and comfort zones.',status:'Journal',date:'2026-04-19',url:'https://notion.so',type:'journal'},{title:'On Building Identity',description:'Identity-based habits and the long game.',status:'Journal',date:'2026-04-15',url:'https://notion.so',type:'journal'},{title:'Lessons from Failure',description:'The most valuable lessons come from failure.',status:'Journal',date:'2026-04-10',url:'https://notion.so',type:'journal'}],impossible:[{title:'Run a marathon',done:false},{title:'Write and publish a book',done:false},{title:'Build a profitable business',done:false},{title:'Learn to surf',done:false},{title:'Give a TED talk',done:false},{title:'Travel to Japan',done:true},{title:'Read 100 books in a year',done:false},{title:'Complete a 30-day silent retreat',done:false},{title:'Build an app used by 1000+ people',done:false},{title:'Deadlift 2x bodyweight',done:false},{title:'Learn to speak Spanish',done:false},{title:'Create a documentary film',done:false}]};
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60);});
+loadData();
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lee Hathcock</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
     :root {
       --red: #e50914;
       --black: #141414;
