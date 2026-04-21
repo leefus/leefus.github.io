@@ -197,18 +197,23 @@
   </div>
 </div>
 <script>
-const PALETTES=[['#1a1a2e','#0f3460'],['#2d1b69','#11998e'],['#1a0005','#6f0000'],['#0f2027','#2c5364'],['#1a1a1a','#e50914'],['#0d0d0d','#ff6b35'],['#111','#4ecdc4'],['#13001e','#9d50bb'],['#0d0a00','#c9a800'],['#0d1117','#238636']];
-const EMOJIS={ideas:['💡','🧠','⚡','🔥','✨','🎯','🚀','💎','🌟','🔮'],writing:['✏️','📚','📝','📔','📰','🌟','🎧','🎭','📋','☺'],health:['💪','🏃','🥗','🧘','❤','🏋','🌿','⚕','⚡','🎽'],journal:['📕','🌙','☀','💭','🌊','🔥','🌛','🌺','⭐','🎵'],impossible:['🚀','🎁','⚽','🎱','🎯','⛷','🏄','🎯','💰','🌳']};
-function hue(s){let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))%PALETTES.length;return Math.abs(h);}
+var PALETTES=[['#1a1a2e','#0f3460'],['#2d1b69','#11998e'],['#1a0005','#6f0000'],['#0f2027','#2c5364'],['#1a1a1a','#e50914'],['#0d0d0d','#ff6b35'],['#111','#4ecdc4'],['#13001e','#9d50bb'],['#0d0a00','#c9a800'],['#0d1117','#238636']];
+var EMOJIS={ideas:['💡','🧠','⚡','🔥','✨','🎯','🚀','💎','🌟','🔮'],writing:['✏️','📚','📝','📔','📰','🌟','🎧','🎭','📋','☺'],health:['💪','🏃','🥗','🧘','❤','🏋','🌿','⚕','⚡','🎽'],journal:['📕','🌙','☀','💭','🌊','🔥','🌛','🌺','⭐','🎵'],impossible:['🚀','🎁','⚽','🎱','🎯','⛷','🏄','🎯','💰','🌳']};
+function hue(s){var h=0;for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))%PALETTES.length;return Math.abs(h);}
 function pal(t){return PALETTES[hue(t)];}
-function emo(t,tp){const pool=EMOJIS[tp]||EMOJIS.ideas;return pool[hue(t)%pool.length];}
+function emo(t,tp){var pool=EMOJIS[tp]||EMOJIS.ideas;return pool[hue(t)%pool.length];}
 function fdate(d){if(!d)return '';try{return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}catch(e){return '';}}
 function tagClass(s){return({Active:'tag-active','In Progress':'tag-active',Idea:'tag-idea',New:'tag-idea',Done:'tag-done',Completed:'tag-done',Health:'tag-health',Writing:'tag-writing',Journal:'tag-journal'})[s]||'tag-idea';}
+function openNotionUrl(btn){
+  var url=btn.getAttribute('data-url');
+  if(url){window.open(url,'_blank');}
+}
 function mkCard(item,tp){
-  const[c1,c2]=pal(item.title||'');
-  const e=emo(item.title||'',tp);
-  const enc=encodeURIComponent(JSON.stringify(item));
-  return '<div class="card" onclick="openModal(this.dataset.enc)" data-enc="'+enc+'">'+
+  var c=pal(item.title||''),c1=c[0],c2=c[1];
+  var e=emo(item.title||'',tp);
+  var enc=encodeURIComponent(JSON.stringify(item));
+  var notionBtn=item.url?('<button class="pbtn" onclick="openNotionUrl(this)" data-url="'+item.url+'">&#8599;</button>'):'';
+  return '<div class="card" onclick="openModal(this)" data-enc="'+enc+'">'+
     '<div class="card-inner">'+
     '<div class="card-bg" style="background:linear-gradient(135deg,'+c1+','+c2+')"></div>'+
     '<div class="card-overlay"></div>'+
@@ -221,13 +226,16 @@ function mkCard(item,tp){
     '<div class="popup-title">'+(item.title||'Untitled')+'</div>'+
     '<div class="popup-meta"><span class="tag '+tagClass(item.status)+'">'+(item.status||'Idea')+'</span>'+(item.date?'<span class="pdate">'+fdate(item.date)+'</span>':'')+'</div>'+
     '<div class="popup-desc">'+(item.description||'No description yet.')+'</div>'+
-    '<div class="popup-actions"><button class="pbtn play">&#9654;</button>'+(item.url?'<button class="pbtn" onclick="event.stopPropagation();window.open(''+item.url+'','_blank')">&#8599;</button>':'')+'</div>'+
+    '<div class="popup-actions"><button class="pbtn play">&#9654;</button>'+notionBtn+'</div>'+
     '</div></div></div>';
 }
-function openModal(enc){
-  let item;try{item=JSON.parse(decodeURIComponent(enc));}catch(e){return;}
-  const[c1,c2]=pal(item.title||'');
-  const e=emo(item.title||'',item._type||'ideas');
+function openModal(el){
+  var enc=el.getAttribute('data-enc');
+  var item;
+  try{item=JSON.parse(decodeURIComponent(enc));}catch(e){return;}
+  var c=pal(item.title||''),c1=c[0],c2=c[1];
+  var e=emo(item.title||'',item._type||'ideas');
+  var notionLink=item.url?('<a href="'+item.url+'" target="_blank" class="m-link">&#8599; Open in Notion</a>'):'';
   document.getElementById('modal-body').innerHTML=
     '<div class="m-hero" style="background:linear-gradient(135deg,'+c1+','+c2+')">'+e+'</div>'+
     '<div class="m-body">'+
@@ -237,52 +245,53 @@ function openModal(enc){
     (item.category?'<span style="color:#777;font-size:.78rem">'+item.category+'</span>':'')+
     '</div>'+
     '<div class="m-desc">'+(item.description||'No description available.')+'</div>'+
-    (item.url?'<a href="'+item.url+'" target="_blank" class="m-link">&#8599; Open in Notion</a>':'')+
+    notionLink+
     '</div>';
   document.getElementById('overlay').classList.add('open');
 }
 function closeModal(){document.getElementById('overlay').classList.remove('open');}
 document.getElementById('overlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
 function renderRow(id,cntId,items,tp){
-  const el=document.getElementById(id);
-  const cnt=document.getElementById(cntId);
+  var el=document.getElementById(id);
+  var cnt=document.getElementById(cntId);
   if(cnt)cnt.textContent=items.length?'('+items.length+')':'';
-  el.innerHTML=items.length?items.map(i=>mkCard({...i,_type:tp},tp)).join(''):'<div style="padding:16px 0;color:#555;font-size:.82rem">Nothing yet.</div>';
+  el.innerHTML=items.length?items.map(function(i){return mkCard(Object.assign({},i,{_type:tp}),tp);}).join(''):'<div style="padding:16px 0;color:#555;font-size:.82rem">Nothing yet.</div>';
 }
 function renderImp(items){
-  document.getElementById('imp-grid').innerHTML=items.length?items.map(i=>
-    '<div class="imp-card">'+
-    '<div class="imp-check '+(i.done?'done-check':'todo-check')+'">'+(i.done?'&#10003;':'')+'</div>'+
-    '<div class="imp-text '+(i.done?'done':'')+'">'+(i.title||'Goal')+'</div>'+
-    '</div>'
-  ).join(''):'<div style="color:#555">Add goals in Notion!</div>';
+  document.getElementById('imp-grid').innerHTML=items.length?items.map(function(i){
+    return '<div class="imp-card">'+
+      '<div class="imp-check '+(i.done?'done-check':'todo-check')+'">'+(i.done?'&#10003;':'')+'</div>'+
+      '<div class="imp-text '+(i.done?'done':'')+'">'+(i.title||'Goal')+'</div>'+
+      '</div>';
+  }).join(''):'<div style="color:#555">Add goals in Notion!</div>';
 }
 function renderAll(data){
-  const ideas=data.ideas||[],writing=data.writing||[],health=data.health||[],journal=data.journal||[],impossible=data.impossible||[];
-  const latest=ideas[0]||writing[0]||{};
+  var ideas=data.ideas||[],writing=data.writing||[],health=data.health||[],journal=data.journal||[],impossible=data.impossible||[];
+  var latest=ideas[0]||writing[0]||{};
   document.getElementById('hero-desc').textContent=latest.description||'Builder, thinker, and explorer living life on purpose.';
-  document.getElementById('hero-tags').innerHTML=['Builder','Writer','Health Seeker','Dreamer'].map(t=>'<span class="hero-tag">'+t+'</span>').join('');
+  document.getElementById('hero-tags').innerHTML=['Builder','Writer','Health Seeker','Dreamer'].map(function(t){return '<span class="hero-tag">'+t+'</span>';}).join('');
   document.getElementById('sn-ideas').textContent=ideas.length;
   document.getElementById('sn-writing').textContent=writing.length;
   document.getElementById('sn-health').textContent=health.length;
   document.getElementById('sn-impossible').textContent=impossible.length;
-  document.getElementById('sn-done').textContent=impossible.filter(i=>i.done).length;
-  const tickerItems=[...journal,...ideas,...writing].slice(0,12);
-  const doubled=[...tickerItems,...tickerItems];
-  document.getElementById('ticker').innerHTML=doubled.map(i=>'<span class="ticker-item"><b>&#9670;</b>'+(i.title||'')+'</span>').join('');
+  document.getElementById('sn-done').textContent=impossible.filter(function(i){return i.done;}).length;
+  var tickerItems=journal.concat(ideas).concat(writing).slice(0,12);
+  var doubled=tickerItems.concat(tickerItems);
+  document.getElementById('ticker').innerHTML=doubled.map(function(i){return '<span class="ticker-item"><b>&#9670;</b>'+(i.title||'')+'</span>';}).join('');
   renderRow('row-ideas','cnt-ideas',ideas,'ideas');
   renderRow('row-writing','cnt-writing',writing,'writing');
   renderRow('row-health','cnt-health',health,'health');
   renderRow('row-journal','cnt-journal',journal,'journal');
   renderImp(impossible);
 }
-const FALLBACK={ideas:[{title:'AI-Powered Personal Dashboard',description:'Build a real-time dashboard that aggregates all life data into one beautiful view.',status:'Active',date:'2026-04-01',url:'https://notion.so'},{title:'Netflix-Style Personal Site',description:'A personal website that looks and feels like Netflix, pulling from Notion nightly.',status:'Active',date:'2026-04-15',url:'https://notion.so'},{title:'Morning Ritual Optimizer',description:'Create a system to optimize and track morning routines for maximum productivity.',status:'Idea',date:'2026-03-20',url:'https://notion.so'},{title:'The Deep Work Journal',description:'A structured journaling system for tracking deep work sessions and insights.',status:'Idea',date:'2026-03-10',url:'https://notion.so'},{title:'Content Creation Engine',description:'Automate and systematize content creation across multiple platforms.',status:'In Progress',date:'2026-04-10',url:'https://notion.so'},{title:'Stoic Daily Practice',description:'Build a daily stoicism practice with journaling, reflection, and study.',status:'Active',date:'2026-02-15',url:'https://notion.so'}],writing:[{title:'The Impossible List Manifesto',description:'Why having an impossible list is the most important thing you can do for your life.',status:'In Progress',date:'2026-04-05',url:'https://notion.so'},{title:'Building in Public',description:'Reflections on the practice of building things publicly and what it teaches you.',status:'Idea',date:'2026-03-28',url:'https://notion.so'},{title:'Notes on Deep Work',description:'Key lessons from Cal Newport and my own experiments with focused work.',status:'Done',date:'2026-02-20',url:'https://notion.so'},{title:'Health as a Foundation',description:'Why physical health is the base layer of everything else in life.',status:'Active',date:'2026-04-12',url:'https://notion.so'}],health:[{title:'Zone 2 Cardio Protocol',description:'Weekly zone 2 training block for metabolic health and longevity.',status:'Active',date:'2026-04-18',url:'https://notion.so'},{title:'Sleep Optimization Experiment',description:'90-day experiment to optimize sleep quality using data and habits.',status:'Active',date:'2026-04-01',url:'https://notion.so'},{title:'Strength Training Cycle',description:'Current 16-week strength training cycle focusing on compound movements.',status:'Active',date:'2026-03-15',url:'https://notion.so'},{title:'Nutrition Tracking',description:'Tracking macros to understand impact on energy and performance.',status:'Active',date:'2026-04-10',url:'https://notion.so'},{title:'Cold Exposure Practice',description:'Daily cold shower and weekly cold plunge for resilience.',status:'Done',date:'2026-02-01',url:'https://notion.so'}],journal:[{title:'The Cost of Playing Small',description:'Reflections on fear, comfort zones, and what it costs us to play it safe.',status:'Journal',date:'2026-04-19',url:'https://notion.so'},{title:'On Building Identity',description:'Who are we building toward? Identity-based habits and the long game.',status:'Journal',date:'2026-04-15',url:'https://notion.so'},{title:'Lessons from Failure',description:'The most valuable lessons came from my biggest failures.',status:'Journal',date:'2026-04-10',url:'https://notion.so'},{title:'The Gift of Constraints',description:'How limitations force creativity and lead to better outcomes.',status:'Journal',date:'2026-04-05',url:'https://notion.so'},{title:'Building Momentum',description:'Small wins compound. How to build and protect momentum.',status:'Journal',date:'2026-03-30',url:'https://notion.so'}],impossible:[{title:'Run a marathon',done:false},{title:'Write and publish a book',done:false},{title:'Build a profitable business',done:false},{title:'Learn to surf',done:false},{title:'Give a TED talk',done:false},{title:'Travel to Japan',done:true},{title:'Read 100 books in a year',done:false},{title:'Complete a 30-day silent retreat',done:false},{title:'Build an app used by 1000+ people',done:false},{title:'Deadlift 2x bodyweight',done:false},{title:'Learn to speak Spanish',done:false},{title:'Create a documentary film',done:false},{title:'Meditate every day for 1 year',done:false},{title:'Start a podcast',done:false},{title:'Visit all 7 continents',done:false}]};
-async function loadData(){
-  let data;
-  try{const r=await fetch('data.json?t='+Date.now());if(!r.ok)throw new Error();data=await r.json();}catch(e){data=FALLBACK;}
-  renderAll(data);
+var FALLBACK={ideas:[{title:'AI-Powered Personal Dashboard',description:'Build a real-time dashboard that aggregates all life data into one beautiful view.',status:'Active',date:'2026-04-01',url:'https://notion.so'},{title:'Netflix-Style Personal Site',description:'A personal website that looks and feels like Netflix, pulling from Notion nightly.',status:'Active',date:'2026-04-15',url:'https://notion.so'},{title:'Morning Ritual Optimizer',description:'Create a system to optimize and track morning routines for maximum productivity.',status:'Idea',date:'2026-03-20',url:'https://notion.so'},{title:'The Deep Work Journal',description:'A structured journaling system for tracking deep work sessions.',status:'Idea',date:'2026-03-10',url:'https://notion.so'},{title:'Content Creation Engine',description:'Automate and systematize content creation across platforms.',status:'In Progress',date:'2026-04-10',url:'https://notion.so'},{title:'Stoic Daily Practice',description:'Daily stoicism practice with journaling, reflection, and study.',status:'Active',date:'2026-02-15',url:'https://notion.so'}],writing:[{title:'The Impossible List Manifesto',description:'Why having an impossible list is the most important thing you can do for your life.',status:'In Progress',date:'2026-04-05',url:'https://notion.so'},{title:'Building in Public',description:'Reflections on building publicly and what radical transparency teaches you.',status:'Idea',date:'2026-03-28',url:'https://notion.so'},{title:'Notes on Deep Work',description:'Key lessons from Cal Newport and my own focused work experiments.',status:'Done',date:'2026-02-20',url:'https://notion.so'},{title:'Health as a Foundation',description:'Why physical health is the base layer of everything else in life.',status:'Active',date:'2026-04-12',url:'https://notion.so'}],health:[{title:'Zone 2 Cardio Protocol',description:'Weekly zone 2 training for metabolic health and longevity.',status:'Active',date:'2026-04-18',url:'https://notion.so'},{title:'Sleep Optimization Experiment',description:'90-day experiment to optimize sleep quality using data and habits.',status:'Active',date:'2026-04-01',url:'https://notion.so'},{title:'Strength Training Cycle',description:'Current 16-week cycle focusing on compound movements.',status:'Active',date:'2026-03-15',url:'https://notion.so'},{title:'Nutrition Tracking',description:'Tracking macros to understand impact on energy and performance.',status:'Active',date:'2026-04-10',url:'https://notion.so'},{title:'Cold Exposure Practice',description:'Daily cold shower and weekly cold plunge for resilience.',status:'Done',date:'2026-02-01',url:'https://notion.so'}],journal:[{title:'The Cost of Playing Small',description:'Reflections on fear, comfort zones, and what it costs to play it safe.',status:'Journal',date:'2026-04-19',url:'https://notion.so'},{title:'On Building Identity',description:'Who are we building toward? Identity-based habits and the long game.',status:'Journal',date:'2026-04-15',url:'https://notion.so'},{title:'Lessons from Failure',description:'The most valuable lessons came from my biggest failures.',status:'Journal',date:'2026-04-10',url:'https://notion.so'},{title:'The Gift of Constraints',description:'How limitations force creativity and lead to better outcomes.',status:'Journal',date:'2026-04-05',url:'https://notion.so'},{title:'Building Momentum',description:'Small wins compound. How to build and protect momentum.',status:'Journal',date:'2026-03-30',url:'https://notion.so'}],impossible:[{title:'Run a marathon',done:false},{title:'Write and publish a book',done:false},{title:'Build a profitable business',done:false},{title:'Learn to surf',done:false},{title:'Give a TED talk',done:false},{title:'Travel to Japan',done:true},{title:'Read 100 books in a year',done:false},{title:'Complete a 30-day silent retreat',done:false},{title:'Build an app used by 1000+ people',done:false},{title:'Deadlift 2x bodyweight',done:false},{title:'Learn to speak Spanish',done:false},{title:'Create a documentary film',done:false},{title:'Meditate every day for 1 year',done:false},{title:'Start a podcast',done:false},{title:'Visit all 7 continents',done:false}]};
+function loadData(){
+  fetch('data.json?t='+Date.now())
+    .then(function(r){if(!r.ok)throw new Error();return r.json();})
+    .then(function(data){renderAll(data);})
+    .catch(function(){renderAll(FALLBACK);});
 }
-window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60);});
+window.addEventListener('scroll',function(){document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60);});
 loadData();
 </script>
 </body>
