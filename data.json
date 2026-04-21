@@ -1,0 +1,53 @@
+{
+  "_updated": "2026-04-21T15:00:00.000Z",
+  "_note": "Seed data — will be replaced nightly by Notion sync",
+  "journal": [
+    {"id":"j1","title":"The Cost of Playing Small","description":"Reflections on fear, comfort zones, and what it truly costs us to play it safe in life.","status":"Journal","date":"2026-04-19","url":"https://www.notion.so/blh129/3375a230e58580a8a756e6af89613990","type":"journal"},
+    {"id":"j2","title":"On Building Identity","description":"Who are we building toward? Identity-based habits and the long game of becoming.","status":"Journal","date":"2026-04-15","url":"https://www.notion.so/blh129/3375a230e58580a8a756e6af89613990","type":"journal"},
+    {"id":"j3","title":"Lessons from Failure","description":"The most valuable lessons I have learned came from my biggest failures. Embracing them.","status":"Journal","date":"2026-04-10","url":"https://www.notion.so/blh129/3375a230e58580a8a756e6af89613990","type":"journal"},
+    {"id":"j4","title":"The Gift of Constraints","description":"How limitations force creativity and consistently lead to better, more innovative outcomes.","status":"Journal","date":"2026-04-05","url":"https://www.notion.so/blh129/3375a230e58580a8a756e6af89613990","type":"journal"},
+    {"id":"j5","title":"Building Momentum","description":"Small wins compound into massive results. How to build and carefully protect momentum.","status":"Journal","date":"2026-03-30","url":"https://www.notion.so/blh129/3375a230e58580a8a756e6af89613990","type":"journal"}
+  ],
+  "ideas": [
+    {"id":"i1","title":"Netflix-Style Personal Site","description":"A personal website that looks and feels like Netflix, pulling content nightly from Notion.","status":"Active","date":"2026-04-15","url":"https://www.notion.so/blh129/4d88f0d49f224860989b11b86dc3ba28","type":"ideas"},
+    {"id":"i2","title":"AI-Powered Personal Dashboard","description":"Build a real-time dashboard that aggregates all life data into one beautiful, actionable view.","status":"Active","date":"2026-04-01","url":"https://www.notion.so/blh129/4d88f0d49f224860989b11b86dc3ba28","type":"ideas"},
+    {"id":"i3","title":"Morning Ritual Optimizer","description":"Create a system to optimize and track morning routines for maximum productivity and clarity.","status":"Idea","date":"2026-03-20","url":"https://www.notion.so/blh129/4d88f0d49f224860989b11b86dc3ba28","type":"ideas"},
+    {"id":"i4","title":"The Deep Work Journal","description":"A structured journaling system for tracking deep work sessions and capturing insights.","status":"Idea","date":"2026-03-10","url":"https://www.notion.so/blh129/4d88f0d49f224860989b11b86dc3ba28","type":"ideas"},
+    {"id":"i5","title":"Content Creation Engine","description":"Automate and systematize content creation across multiple platforms with templates and workflows.","status":"In Progress","date":"2026-04-10","url":"https://www.notion.so/blh129/4d88f0d49f224860989b11b86dc3ba28","type":"ideas"},
+    {"id":"i6","title":"Stoic Daily Practice App","description":"Build a daily stoicism practice with journaling, reflection prompts, and study materials.","status":"Active","date":"2026-02-15","url":"https://www.notion.so/blh129/4d88f0d49f224860989b11b86dc3ba28","type":"ideas"},
+    {"id":"i7","title":"Second Brain Architecture","description":"Designing the ultimate personal knowledge management system using Notion as the foundation.","status":"Active","date":"2026-04-18","url":"https://www.notion.so/blh129/4d88f0d49f224860989b11b86dc3ba28","type":"ideas"},
+    {"id":"i8","title":"Micro-Habits Framework","description":"A framework for building and tracking micro-habits that compound into life transformation.","status":"Idea","date":"2026-03-05","url":"https://www.notion.so/blh129/4d88f0d49f224860989b11b86dc3ba28","type":"ideas"}
+  ],
+  "health": [
+    {"id":"h1","title":"Zone 2 Cardio Protocol","description":"Weekly zone 2 training block for metabolic health, fat adaptation, and longevity markers.","status":"Active","date":"2026-04-18","url":"https://www.notion.so/blh129/f32f30a0f61c456587b0df7e4a000ed5","type":"health"},
+    {"id":"h2","title":"Sleep Optimization Experiment","description":"90-day experiment to optimize sleep quality using data tracking, light exposure, and habits.","status":"Active","date":"2026-04-01","url":"https://www.notion.so/blh129/f32f30a0f61c456587b0df7e4a000ed5","type":"health"},
+    {"id":"h3","title":"Strength Training Cycle","description":"Current 16-week strength training cycle focusing on compound movements and progressive overload.","status":"Active","date":"2026-03-15","url":"https://www.notion.so/blh129/f32f30a0f61c456587b0df7e4a000ed5","type":"health"},
+    {"id":"h4","title":"Nutrition Tracking","description":"Tracking macros and food quality to understand the impact on energy, performance, and body composition.","status":"Active","date":"2026-04-10","url":"https://www.notion.so/blh129/f32f30a0f61c456587b0df7e4a000ed5","type":"health"},
+    {"id":"h5","title":"Cold Exposure Practice","description":"Daily cold shower and weekly cold plunge practice for resilience, recovery, and mental fortitude.","status":"Done","date":"2026-02-01","url":"https://www.notion.so/blh129/f32f30a0f61c456587b0df7e4a000ed5","type":"health"},
+    {"id":"h6","title":"Breathwork Protocol","description":"Exploring Wim Hof and box breathing techniques for stress management and performance enhancement.","status":"Active","date":"2026-03-22","url":"https://www.notion.so/blh129/f32f30a0f61c456587b0df7e4a000ed5","type":"health"}
+  ],
+  "writing": [
+    {"id":"w1","title":"The Impossible List Manifesto","description":"Why having an impossible list is the most important thing you can do for your life and identity.","status":"In Progress","date":"2026-04-05","url":"https://www.notion.so/blh129/471e8536006b45f693e28a599cd70108","type":"writing"},
+    {"id":"w2","title":"Building in Public","description":"Reflections on the practice of building things publicly and what radical transparency teaches you.","status":"Idea","date":"2026-03-28","url":"https://www.notion.so/blh129/471e8536006b45f693e28a599cd70108","type":"writing"},
+    {"id":"w3","title":"Notes on Deep Work","description":"Key lessons from Cal Newport and my own experiments with intentional, focused work sessions.","status":"Done","date":"2026-02-20","url":"https://www.notion.so/blh129/471e8536006b45f693e28a599cd70108","type":"writing"},
+    {"id":"w4","title":"Health as a Foundation","description":"Why physical health is the base layer of everything else in life — and how to build it first.","status":"Active","date":"2026-04-12","url":"https://www.notion.so/blh129/471e8536006b45f693e28a599cd70108","type":"writing"},
+    {"id":"w5","title":"The Art of Starting","description":"Overcoming the paralysis of the blank page and building a bias toward action in creative work.","status":"Idea","date":"2026-04-08","url":"https://www.notion.so/blh129/471e8536006b45f693e28a599cd70108","type":"writing"}
+  ],
+  "impossible": [
+    {"id":"il1","title":"Run a marathon","done":false},
+    {"id":"il2","title":"Write and publish a book","done":false},
+    {"id":"il3","title":"Build a profitable business","done":false},
+    {"id":"il4","title":"Learn to surf","done":false},
+    {"id":"il5","title":"Give a TED talk","done":false},
+    {"id":"il6","title":"Travel to Japan","done":true},
+    {"id":"il7","title":"Read 100 books in a year","done":false},
+    {"id":"il8","title":"Complete a 30-day silent retreat","done":false},
+    {"id":"il9","title":"Build an app used by 1000+ people","done":false},
+    {"id":"il10","title":"Deadlift 2x bodyweight","done":false},
+    {"id":"il11","title":"Learn to speak Spanish","done":false},
+    {"id":"il12","title":"Create a documentary film","done":false},
+    {"id":"il13","title":"Meditate every day for 1 year","done":false},
+    {"id":"il14","title":"Start a podcast","done":false},
+    {"id":"il15","title":"Visit all 7 continents","done":false}
+  ]
+}
